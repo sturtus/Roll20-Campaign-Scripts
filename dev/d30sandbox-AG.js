@@ -169,7 +169,7 @@ d30sandbox.ag5 = {table: "AG5", tableName: "LOCATION FEATURE", results: [
 ]};
 
 d30sandbox.ag6 = {table: "AG6", tableName: "PHENOMENA", results: [
-charm",
+"charm",
 "darkness",
 "decay",
 "delusion",
@@ -198,7 +198,7 @@ charm",
 "sleep",
 "strange vegetation",
 "strange weather",
-"transformation
+"transformation"
 ]};
 
 d30sandbox.ag7 = {table: "AG7", tableName: "VILLAIN GOAL/REASON", results: [

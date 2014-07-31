@@ -275,21 +275,13 @@ function updateLights(lightSource,elapsedTime) {
  
  
 function findLights(numRounds) {
- 
     var playerVisibleLights = filterObjs(function(obj) {
-    
         if(obj.get("_pageid") == Campaign().get("playerpageid") && obj.get("_subtype") == "token" && obj.get("bar2_value") == "1" && obj.get("bar2_max") == "1" && obj.get("light_otherplayers") == true) return true;
-        
         else return false;
-        
     });
- 
 	_.each(playerVisibleLights, function(obj) {
-	
     	updateLights(obj,numRounds);
-    	
 	});
-	
 };
  
 /* 
@@ -299,153 +291,138 @@ on('ready', function() {
 
 });
 */
+
+
+
+
+
+/* EVENT LISTENERS ------------------------------------------------------------------------------------  */
+
+// chronos command to add time to game clock. moves game forward in time. 
+// this should trip a function to cycle through the statuses in state.activestatus to see if any thing changes based on
+// the current duration of the status
+
+
  
 on("chat:message", function(msg) {
- 
 	if (msg.type == "api" && msg.who.indexOf("(GM)") !== -1 && msg.content.indexOf("!chronos") !== -1) {
-        
-        var years = 0, months = 0, days = 0, hours = 0, minutes = 0;
-        
-        var n = msg.content.split(" ");
-        
-        if (n[1] == undefined) { // i.e., just "!chronos"
-            
-            updateChronos(years,months,days,hours,minutes);
-            
-            return;
-            
-        } else if (n[2] == undefined) { // i.e., "!chronos 1d" or "!chronos 1d,4h"
-            
-            var time = n[1].split(",");
-            
-            for (i = 0; i < time.length; i++) {
-                
-                if (time[i].indexOf("y") != -1) { years = time[i].slice(0, time[i].indexOf("y")); };
-                
-                if (time[i].indexOf("m") != -1) { months = time[i].slice(0, time[i].indexOf("m")); };
-                
-                if (time[i].indexOf("d") != -1) { days = time[i].slice(0, time[i].indexOf("d")); };
-                
-                if (time[i].indexOf("h") != -1) { hours = time[i].slice(0, time[i].indexOf("h")); };
-                
-                if (time[i].indexOf("n") != -1) { minutes = time[i].slice(0, time[i].indexOf("n")); };
-                
-            };
-            
-        } else { // i.e., params (only makes sense with values for time, should add some error catching)
-            
-            var time = n[1].split(",");
-            
-            var params = n[2].slice(1);
-            
-            for (i = 0; i < time.length; i++) {
-                
-                if (time[i].indexOf("y") != -1) { years = time[i].slice(0, time[i].indexOf("y")); };
-                
-                if (time[i].indexOf("m") != -1) { months = time[i].slice(0, time[i].indexOf("m")); };
-                
-                if (time[i].indexOf("d") != -1) { days = time[i].slice(0, time[i].indexOf("d")); };
-                
-                if (time[i].indexOf("h") != -1) { hours = time[i].slice(0, time[i].indexOf("h")); };
-                
-                if (time[i].indexOf("n") != -1) { minutes = time[i].slice(0, time[i].indexOf("n")); };
-                
-            };
-            
-            // kick off torches burning, healing, etc. here
-            for (i = 0; i < params.length; i++) {
-                
-                switch (params[i]) {
-                    
-                    case "h": // heal, i.e. bedrest for 24+ hours
-                        
-                        healCharacters("d",days,"bedrest");
-                        
-                    break;
-                    
-                    case "r": // rest, i.e. sleep for 8+ hours
-                        if (_.contains(params, "h")) {
-                            
-                            sendChat("Chronos","/w gm Cannot use 'h' and 'r' in the same command, using 'h'.");
-                            
-                        } else {
-                            
-                            if (days > 0) {
-                                
-                                healCharacters("d",days,"normal");
-                                
-                            } else {
-                                
-                                healCharacters("h",hours,"normal");
-                                
-                            };
-                            
-                        };
-                        
-                    break;
-                    
-                    case "t": // torches, i.e. track light source's fuel
-                        
-                        findLights(minutes);
-                        
-                    break;
-                    
-                };
-                
-            };
-            
-        };
-        
-        updateChronos(years,months,days,hours,minutes);
-        
-    };
- 
+		
+		var years = 0,
+			months = 0,
+			days = 0,
+			hours = 0,
+			minutes = 0;
+			
+		var n = msg.content.split(" ");
+		
+		if (n[1] == undefined) { // i.e., just "!chronos"
+			updateChronos(years, months, days, hours, minutes);
+			return;
+		} else if (n[2] == undefined) { // i.e., "!chronos 1d" or "!chronos 1d,4h"
+			var time = n[1].split(",");
+			for (i = 0; i < time.length; i++) {
+				if (time[i].indexOf("y") != -1) {
+					years = time[i].slice(0, time[i].indexOf("y"));
+				};
+				if (time[i].indexOf("m") != -1) {
+					months = time[i].slice(0, time[i].indexOf("m"));
+				};
+				if (time[i].indexOf("d") != -1) {
+					days = time[i].slice(0, time[i].indexOf("d"));
+				};
+				if (time[i].indexOf("h") != -1) {
+					hours = time[i].slice(0, time[i].indexOf("h"));
+				};
+				if (time[i].indexOf("n") != -1) {
+					minutes = time[i].slice(0, time[i].indexOf("n"));
+				};
+			};
+		} else { // i.e., params (only makes sense with values for time, should add some error catching)
+
+			var time = n[1].split(",");
+
+			var params = n[2].slice(1);
+
+			for (i = 0; i < time.length; i++) {
+				if (time[i].indexOf("y") != -1) {
+					years = time[i].slice(0, time[i].indexOf("y"));
+				};
+				if (time[i].indexOf("m") != -1) {
+					months = time[i].slice(0, time[i].indexOf("m"));
+				};
+				if (time[i].indexOf("d") != -1) {
+					days = time[i].slice(0, time[i].indexOf("d"));
+				};
+				if (time[i].indexOf("h") != -1) {
+					hours = time[i].slice(0, time[i].indexOf("h"));
+				};
+				if (time[i].indexOf("n") != -1) {
+					minutes = time[i].slice(0, time[i].indexOf("n"));
+				};
+			};
+
+			// kick off torches burning, healing, etc. here
+			for (i = 0; i < params.length; i++) {
+				switch (params[i]) {
+					case "h": // heal, i.e. bedrest for 24+ hours
+						healCharacters("d", days, "bedrest");
+						break;
+					case "r": // rest, i.e. sleep for 8+ hours
+						if (_.contains(params, "h")) {
+							sendChat("Chronos", "/w gm Cannot use 'h' and 'r' in the same command, using 'h'.");
+						} else {
+							if (days > 0) {
+								healCharacters("d", days, "normal");
+							} else {
+								healCharacters("h", hours, "normal");
+							};
+						};
+						break;
+					case "t": // torches, i.e. track light source's fuel
+						findLights(minutes);
+						break;
+				};
+			};
+		};
+		updateChronos(years, months, days, hours, minutes);
+	};
 });
+
+
+// it looks like brian is tracking light duration using bars on tokens. This could be stored in the state.activestatus for status tracker.
+// bar_1 appears to be duration of light source?
+// bar_2 appears to be on/off
  
- 
+// Listen for change in bar_1
+// purpose is to track duration of light source after lighting
+// this could be a status added to a token in status tracker with specified status name, like torch, lantern. the token would have its light radius
+// changed when triggered. should specify reserved names for special status in status macro.
 on("change:graphic:bar1_value", function(obj) {
- 
 	if (obj.get("_pageid") == Campaign().get("playerpageid") && obj.get("_subtype") == "token" && obj.get("bar2_max") == "1" && obj.get("light_otherplayers") == true) {
-	
 		var maxValue = obj.get("bar1_max");
-    
 	    if (obj.get("bar1_value") > maxValue ) {
-            
-				obj.set({bar1_value: maxValue});
-                
+				obj.set({bar1_value: maxValue});  
     		};
-	
 		updateLights(obj,0); 
- 
 	};
  
 });
 
-
+// Listen for change in bar_1
+// purpose is to track duration of light source after lighting
+// this could be a status added to a token in status tracker with specified status name, like torch, lantern. the token would have its light radius
+// changed when triggered. should specify reserved names for special status in status macro.
 on("change:graphic:bar2_value", function(obj) {
-    
     if (obj.get("_pageid") == Campaign().get("playerpageid") && obj.get("_subtype") == "token" && obj.get("bar2_max") == "1" && obj.get("light_otherplayers") == true) {
-        
-        if (obj.get("bar2_value") > 0 ) {
-            
-            if (obj.get("bar1_value") > 0) {
-				
+        if (obj.get("bar2_value") > 0 ) { 
+            if (obj.get("bar1_value") > 0) {	
 				obj.set({bar2_value: 1});
-				
 			} else {
-			
                 obj.set({bar2_value: 0})
-                
     		};
-            
             updateLights(obj,0);
-            
         } else if (obj.get("bar2_value") <= 0 ) {
-            
-            obj.set({bar2_value: 0});
-            
     	    obj.set({light_radius: "",light_dimradius: ""});
-    	    
         };
         
     };
