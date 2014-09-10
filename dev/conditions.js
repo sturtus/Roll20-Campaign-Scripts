@@ -408,12 +408,12 @@ on("chat:message", function(msg) {
             tint_color: "transparent"
         });
     }
-    else if(obj.get("bar3_value") <= obj.get("bar3_max") / 2) {
-        obj.set({
-            tint_color: "#FF0000",
-            status_dead: false
-        });
-    }
+    //else if(obj.get("bar3_value") <= obj.get("bar3_max") / 2) {
+    //    obj.set({
+    //        tint_color: "#FF0000",
+    //        status_dead: false
+    //    });
+    //}
     else{
         obj.set({
             tint_color: "transparent",
