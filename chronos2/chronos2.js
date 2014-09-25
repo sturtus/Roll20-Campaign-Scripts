@@ -1,9 +1,14 @@
 /* 
 
-A rewrite of  chronos
+CHRONOS 2
 
 Key Features and Functions
 
+1. Track passage of time in game
+2. Store events to occur at certain time (chat events, handout creation events, reminders)
+3. Trigger events as they occur
+4. Assign conditions to characters
+5. Track duration of conditions
 
 
 */
@@ -13,9 +18,12 @@ Key Features and Functions
 
 // define user configurable variables
 
+
+
 // **********  DATABASE   *******************************************************
 
 // populate database
+
 
 
 // **********  MAIN FUNCTIONS  *******************************************************
