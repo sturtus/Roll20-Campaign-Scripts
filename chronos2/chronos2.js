@@ -54,12 +54,17 @@ Key Features and Functions
 
 // **********  UTILITY FUNCTIONS   *******************************************************
 
-//modal prompt
-//generates a popup to enter parameters for a chosen function. displays options, requests entry.
+//modal/prompt
 //accept parameters: array of options in string format
-//sends macro to chat with array, one entry per line from array with ? to prompt for user input.
+//generates a popup to enter parameters for a chosen function. displays options, requests entry.
+//   ROLL20 API cannot send macros to chat, explicity stated in wiki https://wiki.roll20.net/API:Chat Chat Functions
+//   will require use of Character Abilities.
+//   creates new character ability in CHRONOS with array of strings, numbered, one entry per line from array with ? to prompt for user input (pick number)
+//   runs new ability
+//   deletes ability
 //returns string user entered or 0 for nothing entered.
 
+//validate CHRONOS: journal, abilities, token, page exist
 //set marker
 //remove marker
 //set light
